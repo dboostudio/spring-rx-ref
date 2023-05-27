@@ -2,4 +2,5 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27027/WEBFLUX
+      uri: mongodb://localhost:27017
+      database: spring-react

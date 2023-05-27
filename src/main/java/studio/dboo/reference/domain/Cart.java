@@ -15,10 +15,10 @@ public class Cart {
 
     @Id
     private String id;
-    private List<CartItem> cartItemList;
+    private List<CartItem> cartItems;
 
     public Cart(String id) {
         this.id = id;
-        this.cartItemList = new ArrayList<>();
+        this.cartItems = new ArrayList<>();
     }
 }
