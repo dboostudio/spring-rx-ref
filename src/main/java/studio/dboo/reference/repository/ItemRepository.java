@@ -13,8 +13,8 @@ public interface ItemRepository extends ReactiveCrudRepository<Item, String>,
     @Query("{ 'name' : ?0, 'age' : ?1 }")
     Flux<Item> findItemsForCustomerMonthlyReport(String name, int age);
 
-    @Query(sort = "{ 'age' : -1 }")
-    Flux<Item> findSortedStuffForWeeklyReport();
+//    @Query(sort = "{ 'age' : -1 }")
+//    Flux<Item> findSortedStuffForWeeklyReport();
 
     // name 검색
     Flux<Item> findByNameContainingIgnoreCase(String partialName);
