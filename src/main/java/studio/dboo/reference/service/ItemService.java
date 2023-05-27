@@ -14,7 +14,7 @@ public class ItemService {
 
     private final ItemRepository repository;
 
-    Flux<Item> search(String partialName, String partialDescription, boolean useAnd) {
+    public Flux<Item> search(String partialName, String partialDescription, boolean useAnd) {
         if (partialName != null) {
             if (partialDescription != null) {
                 if (useAnd) {
@@ -37,7 +37,7 @@ public class ItemService {
         }
     }
 
-    Flux<Item> searchByExample(String name, String description, boolean useAnd) {
+    public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
         Item item = new Item(name, description, 0.0);
         ExampleMatcher matcher = (useAnd ? ExampleMatcher.matchingAll() : ExampleMatcher.matchingAny())
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
