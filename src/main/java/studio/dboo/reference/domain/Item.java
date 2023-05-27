@@ -28,4 +28,10 @@ public class Item {
         this.name = name;
         this.price = price;
     }
+
+    public Item(String name, String description, double price) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
 }
