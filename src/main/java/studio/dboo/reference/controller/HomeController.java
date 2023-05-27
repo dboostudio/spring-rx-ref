@@ -9,6 +9,7 @@ import studio.dboo.reference.domain.CartItem;
 import studio.dboo.reference.domain.Item;
 import studio.dboo.reference.repository.CartRepository;
 import studio.dboo.reference.repository.ItemRepository;
+import studio.dboo.reference.service.CartService;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +19,8 @@ public class HomeController {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
 
+    private final CartService cartService;
+
     @GetMapping("/item")
     public Flux<Item> getItems() {
         return itemRepository.findAll();
@@ -25,32 +28,14 @@ public class HomeController {
 
     @GetMapping("cart")
     public Mono<Cart> getCarts() {
-        return cartRepository.findById("My Cart")
-                .defaultIfEmpty(new Cart("My Cart"));
+        String myCartId = "My Cart";
+        return cartRepository.findById(myCartId)
+                .defaultIfEmpty(new Cart(myCartId));
     }
 
     @PostMapping("/add/{id}")
     Mono<String> addToCart(@PathVariable String id) {
-        return
-                this.cartRepository.findById("My Cart")
-                .defaultIfEmpty(new Cart("My Cart"))
-                .flatMap(cart -> cart.getCartItems().stream()
-                        .filter(cartItem -> cartItem.getItem()
-                                .getId().equals(id))
-                        .findAny()
-                        .map(cartItem -> {
-                            cartItem.increment();
-                            return Mono.just(cart);
-                        })
-                        .orElseGet(() -> {
-                            return this.itemRepository.findById(id)
-                                    .map(item -> new CartItem(item))
-                                    .map(cartItem -> {
-                                        cart.getCartItems().add(cartItem);
-                                        return cart;
-                                    });
-                        }))
-                .flatMap(cart -> this.cartRepository.save(cart))
-                .thenReturn("ok");
+        String myCartId = "My Cart";
+        return cartService.addToCart(myCartId, id).thenReturn("ok");
     }
 }
